@@ -12,6 +12,15 @@ open import Categories.Product
 Bifunctor : ∀ {o ℓ e} {o′ ℓ′ e′} {o′′ ℓ′′ e′′} → Category o ℓ e → Category o′ ℓ′ e′ → Category o′′ ℓ′′ e′′ → Set (o ⊔ ℓ ⊔ e ⊔ o′ ⊔ ℓ′ ⊔ e′ ⊔ o′′ ⊔ ℓ′′ ⊔ e′′)
 Bifunctor C D E = Functor (Product C D) E
 
+_⟨_,_⟩
+ : ∀ {o ℓ e} {o′ ℓ′ e′} {o′′ ℓ′′ e′′}
+ → {C : Category o ℓ e}
+ → {D : Category o′ ℓ′ e′}
+ → {E : Category o′′ ℓ′′ e′′}
+ → Bifunctor C D E
+ → Category.Obj C → Category.Obj D → Category.Obj E
+BF ⟨ X , Y ⟩ = Functor.F₀ BF (X , Y)
+
 overlap-× : ∀ {o ℓ e} {o′₁ ℓ′₁ e′₁} {o′₂ ℓ′₂ e′₂} {C : Category o ℓ e} {D₁ : Category o′₁ ℓ′₁ e′₁} {D₂ : Category o′₂ ℓ′₂ e′₂} (H : Bifunctor D₁ D₂ C) {o″ ℓ″ e″} {E : Category o″ ℓ″ e″} (F : Functor E D₁) (G : Functor E D₂) → Functor E C
 overlap-× H F G = H ∘ (F ※ G)
 

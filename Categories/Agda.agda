@@ -36,9 +36,12 @@ Sets o = record
 
   ∘-resp-≡′ : {A B C : Set o} {f h : B → C} {g i : A → B} →
              (∀ {x} → f x ≣ h x) →
-             (∀ {x} → g x ≣ i x) → 
+             (∀ {x} → g x ≣ i x) →
              (∀ {x} → f (g x) ≣ h (i x))
   ∘-resp-≡′ {g = g} f≡h g≡i {x} rewrite f≡h {g x} | g≡i {x} = ≣-refl
+
+𝑆𝑒𝑡 : ∀ o → Category (suc o) o o
+𝑆𝑒𝑡 = Sets
 
 -- use standard library setoids here, not our special irrelevant ones
 Setoids : ∀ c ℓ → Category (suc (ℓ ⊔ c)) (ℓ ⊔ c) (ℓ ⊔ c)
@@ -51,7 +54,7 @@ Setoids c ℓ = record
   ; assoc = λ {_} {_} {_} {D} → Setoid.refl D
   ; identityˡ = λ {_} {B} → Setoid.refl B
   ; identityʳ = λ {_} {B} → Setoid.refl B
-  ; equiv = λ {A} {B} → record 
+  ; equiv = λ {A} {B} → record
     { refl = Setoid.refl B
     ; sym = λ f → Setoid.sym B f
     ; trans = λ f g → Setoid.trans B f g

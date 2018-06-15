@@ -13,7 +13,7 @@ open import Data.Product
 postulate
   .irr : ∀ {a} {A : Set a} → .A → A
 
-record Category (o ℓ e : Level) : Set (suc (o ⊔ ℓ ⊔ e)) where 
+record Category (o ℓ e : Level) : Set (suc (o ⊔ ℓ ⊔ e)) where
 
   infix  4 _≡_ _⇒_
   infixr 9 _∘_
@@ -65,7 +65,7 @@ record Category (o ℓ e : Level) : Set (suc (o ⊔ ℓ ⊔ e)) where
   ∘-resp-≡ʳ pf = ∘-resp-≡ refl pf
 
   hom-setoid : ∀ {A B} → Setoid _ _
-  hom-setoid {A} {B} = record 
+  hom-setoid {A} {B} = record
     { Carrier = A ⇒ B
     ; _≈_ = _≡_
     ; isEquivalence = equiv
@@ -79,7 +79,7 @@ record Category (o ℓ e : Level) : Set (suc (o ⊔ ℓ ⊔ e)) where
     _⟩∘⟨_ = ∘-resp-≡
 
   op : Category o ℓ e
-  op = record 
+  op = record
     { Obj = Obj
     ; _⇒_ = flip _⇒_
     ; _≡_ = _≡_
@@ -88,7 +88,7 @@ record Category (o ℓ e : Level) : Set (suc (o ⊔ ℓ ⊔ e)) where
     ; assoc = sym assoc
     ; identityˡ = identityʳ
     ; identityʳ = identityˡ
-    ; equiv = record 
+    ; equiv = record
       { refl = refl
       ; sym = sym
       ; trans = trans
@@ -133,7 +133,7 @@ module Heterogeneous {o ℓ e} (C : Category o ℓ e) where
   sym : ∀ {A B} {f : A ⇒ B} {D E} {g : D ⇒ E} → f ∼ g → g ∼ f
   sym (≡⇒∼ f≡g) = ≡⇒∼ (sym′ f≡g)
 
-  trans : ∀ {A B} {f : A ⇒ B} 
+  trans : ∀ {A B} {f : A ⇒ B}
              {D E} {g : D ⇒ E}
              {F G} {h : F ⇒ G}
           → f ∼ g → g ∼ h → f ∼ h
@@ -154,7 +154,7 @@ module Heterogeneous {o ℓ e} (C : Category o ℓ e) where
   .∼⇒≡ : ∀ {A B} {f g : A ⇒ B} → f ∼ g → f ≡ g
   ∼⇒≡ (≡⇒∼ f≡g) = irr f≡g
 
-  
+
   domain-≣ : ∀ {A A′ B B′} {f : A ⇒ B} {f′ : A′ ⇒ B′} → f ∼ f′ → A ≣ A′
   domain-≣ (≡⇒∼ _) = ≣-refl
 
@@ -168,8 +168,8 @@ module Heterogeneous {o ℓ e} (C : Category o ℓ e) where
   float₂ : ∀ {A A′ B B′} → A ≣ A′ → B ≣ B′ → A ⇒ B → A′ ⇒ B′
   float₂ = ≣-subst₂ _⇒_
 
-  relaxed : ∀ {A B} {f : A ⇒ B} {X Y} {g : X ⇒ Y} -> (A≣X : A ≣ X) (B≣Y : B ≣ Y) -> float₂ A≣X B≣Y f ≡ g -> f ∼ g   
-  relaxed ≣-refl ≣-refl f≡g = ≡⇒∼ f≡g 
+  relaxed : ∀ {A B} {f : A ⇒ B} {X Y} {g : X ⇒ Y} -> (A≣X : A ≣ X) (B≣Y : B ≣ Y) -> float₂ A≣X B≣Y f ≡ g -> f ∼ g
+  relaxed ≣-refl ≣-refl f≡g = ≡⇒∼ f≡g
 
   floatˡ : ∀ {A B B′} → B ≣ B′ → A ⇒ B → A ⇒ B′
   floatˡ {A} = ≣-subst (_⇒_ A)
@@ -185,7 +185,7 @@ module Heterogeneous {o ℓ e} (C : Category o ℓ e) where
 
   float₂-breakdown-rl : ∀ {A A′} (A≣A′ : A ≣ A′) {B B′} (B≣B′ : B ≣ B′) (f : A ⇒ B) → float₂ A≣A′ B≣B′ f ≣ floatʳ A≣A′ (floatˡ B≣B′ f)
   float₂-breakdown-rl = ≣-subst₂-breakdown-rl _⇒_
-  
+
   -- henry ford versions
   .∼⇒≡₂ : ∀ {A A′ B B′} {f : A ⇒ B} {f′ : A′ ⇒ B′} → f ∼ f′ → (A≣A′ : A ≣ A′) (B≣B′ : B ≣ B′) → float₂ A≣A′ B≣B′ f ≡ f′
   ∼⇒≡₂ pf ≣-refl ≣-refl = ∼⇒≡ pf
@@ -207,6 +207,6 @@ module Heterogeneous {o ℓ e} (C : Category o ℓ e) where
 
   floatʳ-resp-∼ : ∀ {A A′ B} (A≣A′ : A ≣ A′) {f : C [ A , B ]} → f ∼ floatʳ A≣A′ f
   floatʳ-resp-∼ ≣-refl = refl
-  
+
 _[_∼_] : ∀ {o ℓ e} (C : Category o ℓ e) {A B} (f : C [ A , B ]) {X Y} (g : C [ X , Y ]) → Set (ℓ ⊔ e)
 C [ f ∼ g ] = Heterogeneous._∼_ C f g
