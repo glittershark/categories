@@ -107,15 +107,15 @@ module LimitsOf {o ℓ e} {o′ ℓ′ e′} {C : Category o ℓ e} {J : Categor
     η = η-cone
 
     .rep-cone-cong : ∀ {K₁ K₂} (K₁≜K₂ : K₁ ≜ K₂) → Cones F [ Fl.floatʳ K₁≜K₂ (rep-cone K₁) ≡ rep-cone K₂ ]
-    rep-cone-cong {K₁} {K₂} K₁≜K₂ = 
+    rep-cone-cong {K₁} {K₂} K₁≜K₂ =
       Equiv.sym (terminal.!-unique (Fl.floatʳ K₁≜K₂ (rep-cone K₁)))
 
     .rep-cong′ : ∀ {N} {K₁ K₂ : ConeUnder N} → K₁ ≜′ K₂ → rep (untether K₁) ≡ rep (untether K₂)
-    rep-cong′ {N} {K₁} {K₂} K₁≜′K₂ = 
+    rep-cong′ {N} {K₁} {K₂} K₁≜′K₂ =
       Equiv.sym (terminal.!-unique (Fl.floatʳ (heterogenize K₁≜′K₂) (rep-cone (untether K₁))))
 
     rep-cong : ∀ {K₁ K₂} → K₁ ≜ K₂ → rep K₁ ∼ rep K₂
-    rep-cong K₁≜K₂ = 
+    rep-cong K₁≜K₂ =
       ≡⇒∼ʳ (≜.N-≣ K₁≜K₂) (rep-cone-cong K₁≜K₂)
 
     .rep-cone∘ : ∀ {K K′} {q : K′ ⇾ K} → Cones F [ Cones F [ rep-cone K ∘ q ] ≡ rep-cone K′ ]
@@ -133,7 +133,7 @@ module LimitsOf {o ℓ e} {o′ ℓ′ e′} {C : Category o ℓ e} {J : Categor
   open Limit
 
   -- Properties
-  -- 
+  --
   -- These are a little different from the raw ones for Terminal since they
   -- deal with isomorphisms in C instead of in Cones F.
 
@@ -149,7 +149,7 @@ module LimitsOf {o ℓ e} {o′ ℓ′ e′} {C : Category o ℓ e} {J : Categor
       { N = v
       ; ψ = λ X → (Cone.ψ κ X) ∘ g
       ; commute = λ f' → pullˡ (Cone.commute κ f')
-      } 
+      }
     , record
       { f = record { f = f; commute = Equiv.sym (cancelRight isoˡ) }
       ; g = record { f = g; commute = Equiv.refl }

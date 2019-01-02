@@ -1,8 +1,11 @@
 {-# OPTIONS --universe-polymorphism #-}
+{-# OPTIONS --allow-unsolved-metas #-}
 module Categories.Agda where
 
 open import Level
+open import Function using (_-[_]-_)
 import Relation.Binary
+import Relation.Binary.PropositionalEquality
 import Function.Equality
 
 import Categories.Support.Equivalence
@@ -36,7 +39,7 @@ Sets o = record
 
   ∘-resp-≡′ : {A B C : Set o} {f h : B → C} {g i : A → B} →
              (∀ {x} → f x ≣ h x) →
-             (∀ {x} → g x ≣ i x) → 
+             (∀ {x} → g x ≣ i x) →
              (∀ {x} → f (g x) ≣ h (i x))
   ∘-resp-≡′ {g = g} f≡h g≡i {x} rewrite f≡h {g x} | g≡i {x} = ≣-refl
 
@@ -51,7 +54,7 @@ Setoids c ℓ = record
   ; assoc = λ {_} {_} {_} {D} → Setoid.refl D
   ; identityˡ = λ {_} {B} → Setoid.refl B
   ; identityʳ = λ {_} {B} → Setoid.refl B
-  ; equiv = λ {A} {B} → record 
+  ; equiv = λ {A} {B} → record
     { refl = Setoid.refl B
     ; sym = λ f → Setoid.sym B f
     ; trans = λ f g → Setoid.trans B f g
@@ -101,3 +104,22 @@ Lift-IS {c} {ℓ} a b = record {
     open import Categories.Support.Equivalence
     open Categories.Support.SetoidFunctions renaming (id to id′)
 
+Sets→Setoids : ∀ {ℓ} → Functor (Sets ℓ) (Setoids ℓ ℓ)
+Sets→Setoids = record
+  { F₀ = λ z →
+      record
+      { Carrier = z
+      ; _≈_ = _≣_
+      ; isEquivalence = ≣-isEquivalence
+      }
+  ; F₁ = →-to-⟶
+  ; identity = refl
+  ; homomorphism = refl
+  ; F-resp-≡ = idᶠ
+  }
+  where
+  open Function renaming (id to idᶠ)
+  open Function.Equality
+  open Relation.Binary.PropositionalEquality
+
+---

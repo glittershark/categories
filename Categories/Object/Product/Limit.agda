@@ -7,6 +7,7 @@ open import Function hiding (_∘_; id)
 open import Data.Product using (Σ; _,_)
 
 open Category C
+open Equiv
 open import Categories.Limit
 open import Categories.Discrete
 open LimitsOf
@@ -60,7 +61,7 @@ Limit₂→Product J lim = record
           (J ⟨ ≣-refl ⟩₁) ∘ ψ X
         ↕
           J ⟨ Category.id (Discreteₙ 2) ⟩₁ ∘ ψ X
-        ↓⟨ ∘-resp-≡ˡ (Functor.identity J) ⟩
+        ↓⟨ Functor.identity J ⟩∘⟨ refl ⟩
           id ∘ ψ X
         ↓⟨ identityˡ ⟩
           ψ X
@@ -113,9 +114,9 @@ Product→Limit₂ {A} {B} prod = J , lim
   J = record
     { F₀ = λ { zero → A; (suc zero) → B; (suc (suc ())) }
     ; F₁ = λ { ≣-refl → id }
-    ; identity = Equiv.refl
-    ; homomorphism = λ { {_} {_} {_} {≣-refl} {≣-refl} → Equiv.sym identityˡ }
-    ; F-resp-≡ = λ { {_} {_} {≣-refl} {≣-refl} _ → Equiv.refl}
+    ; identity = refl
+    ; homomorphism = λ { {_} {_} {_} {≣-refl} {≣-refl} → sym identityˡ }
+    ; F-resp-≡ = λ { {_} {_} {≣-refl} {≣-refl} _ → refl }
     }
 
   lim : Limit J
@@ -124,8 +125,8 @@ Product→Limit₂ {A} {B} prod = J , lim
       { ⊤ = ⊤-cone
       ; ! = λ {cone} → record
         { f = ⟨ Cone.ψ cone (# 0) , Cone.ψ cone (# 1) ⟩
-        ; commute = λ { {zero} → Equiv.sym commute₁
-                      ; {suc zero} → Equiv.sym commute₂
+        ; commute = λ { {zero} → sym commute₁
+                      ; {suc zero} → sym commute₂
                       ; {suc (suc ())}
                       }
         }

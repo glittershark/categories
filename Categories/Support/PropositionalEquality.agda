@@ -2,9 +2,9 @@
 module Categories.Support.PropositionalEquality where
 
 open import Function using (flip; id)
-open import Relation.Binary.PropositionalEquality public using () renaming (_≡_ to _≣_; refl to ≣-refl; trans to ≣-trans; sym to ≣-sym; cong to ≣-cong; cong₂ to ≣-cong₂; subst to ≣-subst; subst₂ to ≣-subst₂; isEquivalence to ≣-isEquivalence; setoid to ≣-setoid)
+open import Relation.Binary.PropositionalEquality public using () renaming (_≡_ to _≣_; refl to ≣-refl; trans to ≣-trans; sym to ≣-sym; cong to ≣-cong; cong-app to ≣-cong-app; cong₂ to ≣-cong₂; subst to ≣-subst; subst₂ to ≣-subst₂; isEquivalence to ≣-isEquivalence; setoid to ≣-setoid)
 
-module ≣-reasoning = Relation.Binary.PropositionalEquality.≡-Reasoning renaming (_≡⟨_⟩_ to _≣⟨_⟩_)
+module ≣-reasoning = Relation.Binary.PropositionalEquality.≡-Reasoning renaming (_≡⟨_⟩_ to _≣⟨_⟩_; _≡⟨⟩_ to _≣⟨⟩_)
 
 ≣-app : ∀ {a} {A : Set a} {b} {B : A → Set b} {f g : (x : A) → B x} → f ≣ g → (x : A) → f x ≣ g x
 ≣-app {f = f} {g} = flip (λ x → ≣-cong (flip id x))
